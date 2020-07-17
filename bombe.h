@@ -12,27 +12,16 @@ struct s_led {
   byte number;//quelle led
   byte iteration;//temps
 };
-
 void initbuton(void);
-
 void affichetime(void);
-
 void timer();
-
 void initled(void);
-
 int readpotseq(int *);
-
 void pot_init();
-
 int readsequencebut(void *tab);
-
 int (*fun)(void *, void(*err)(void));
 void readsequenceled(struct s_led *tab);
-void mauvais();
-
 void all_lednum(char led);
-
 
 class seq
 {
@@ -133,14 +122,10 @@ class game
     virtual int launch(void);
 };
 
-
 class game0 : public game //game sequence led -> time button
 {
   protected :
     void seqbut0(struct buton *but);
-    //    void seqled0(s_led *led);
-
-    //    struct s_led tal[10];
     void mauvais();
     struct buton but[10];
     byte pot[25];
@@ -197,14 +182,12 @@ class game2 : public game
     int launch(void);
 };
 
-
 class game3 : public game
 {
   protected :
     long unsigned int timetmp;
     long unsigned int timetmp2;
     int game3_hz;
-    //void mauvais();
   public :
     game3();
     ~game3();
@@ -212,11 +195,9 @@ class game3 : public game
     int launch(void);
 };
 
-
 class game4 : public game
 {
   protected :
-    //void mauvais();
     void seqbutfromdigit(struct buton *but, byte mem, byte number);
     void next();
     int nbwin;
@@ -229,12 +210,9 @@ class game4 : public game
     int launch(void);
 };
 
-
 class game5 : public game
 {
   protected :
-    //void mauvais();
-    void next();
     int reponse;
 
   public :
@@ -244,12 +222,9 @@ class game5 : public game
     int launch(void);
 };
 
-
 class game6 : public game
 {
   protected :
-    //void mauvais();
-    void next();
     uint8_t reponse;
     uint8_t led_on;
     int flag;
@@ -261,11 +236,9 @@ class game6 : public game
     int launch(void);
 };
 
-
 class game7 : public game
 {
   protected :
-    //void mauvais();
     void next();
     void set_but(int mem);
     int  number;
@@ -277,20 +250,5 @@ class game7 : public game
     void reset();
     int launch(void);
 };
-
-//
-//class game5 : public game
-//{
-//  protected :
-//    //void mauvais();
-//    void next();
-//
-//  public :
-//    game4();
-//    ~game4();
-//    void reset();
-//    int launch(void);
-//};
-
 
 #endif

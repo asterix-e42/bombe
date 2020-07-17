@@ -3,42 +3,7 @@
 #include <Wire.h>
 #include <MultiFuncShield.h>
 
-
-//void game0::seqbut0(struct buton *but)
-//{
-//  but[0] = {1, 1, 1};
-//  but[1] = {2, 0, 0};
-//  but[2] = {3, 2, 1};
-//  but[3] = {1, 1, 1};
-//  but[4] = {2, 3, 2};
-//  but[5] = {1, 1, 1};
-//  but[6] = {0, 0, 0};
-//}
-
-
-//void game0::seqbut0(struct buton *but)
-//{
-//  but[0] = {3, 2, 2};
-//  but[1] = {1, 2, 0};
-//  but[2] = {2, 3, 1};
-//  but[3] = {1, 1, 1};
-//  but[4] = {1, 0, 0};
-//  but[5] = {3, 1, 2};
-//  but[6] = {0, 0, 0};
-//}
-
-//void game0::seqbut0(struct buton *but)
-//{
-//  but[0] = {1, 0, 1};
-//  but[1] = {2, 0, 0};
-//  but[2] = {3, 0, 1};
-//  but[3] = {1, 0, 1};
-//  but[4] = {2, 0, 2};
-//  but[5] = {1, 0, 1};
-//  but[6] = {0, 0, 0};
-//}
-
-//void game0::seqbut0(struct buton *but)
+//void game0::seqbut0(struct buton *but) //ramdom hard
 //{
 //  int i = 0;
 //  char but_tmp[3] = {0};

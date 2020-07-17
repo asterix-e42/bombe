@@ -11,14 +11,11 @@ potentiometre *poten = NULL;
 led *led_ = NULL;
 digit *digt;
 
-
 #define aff_debug 0
 int countDownTime = 1000;
 
 uint8_t cables = 0;
 void setup() {
-  // put your setup code here, to run once:
-
   Timer1.initialize();
   MFS.initialize(&Timer1);    // initialize multi-function shield library
   Serial.begin(9600);
@@ -30,12 +27,10 @@ void setup() {
            2,    // loop x times
            50    // wait x*10 milliseconds between loop
           );
-  //
-  //  affichetime();
   MFS.blinkLeds(LED_ALL, ON); //flag clignote
   MFS.writeLeds(LED_ALL, ON); // on/off
 
-  delay(1500);
+  delay(15000);
   MFS.blinkLeds(LED_ALL, OFF);
   MFS.writeLeds(LED_ALL, OFF);
 
@@ -48,7 +43,7 @@ void setup() {
     {
       n = random(0, 8);
     } while ((cables >> n) & 1);
-      cables ^= (1 << n);
+    cables ^= (1 << n);
   }
 }
 
@@ -59,7 +54,6 @@ void game_over()
   MFS.wait(100000);
   exit(0);
 }
-
 
 void change_a4(int numberofgame)
 {
@@ -85,8 +79,6 @@ void change_a4(int numberofgame)
       before -= (analogRead(A4) >> 3);
       if (before < 0)
         before = -before;
-      Serial.print(analogRead(A4) >> 3);
-      Serial.println((int)before);
       inv = !inv;
       if (count_time < 40)
         ++count_time;
@@ -107,12 +99,12 @@ void decroche_fil(char numberofgame)//arg1= flag
     exit(1);//erreur
   while (1)
   {
-    if ((analogRead(A5)/1000 & flag_ac) && (digitalRead(9) & (flag_ac >> 1)) && (digitalRead(6) & (flag_ac >> 2)) && (digitalRead(5) & (flag_ac >> 3))) //etat init
+    if ((analogRead(A5) / 1000 & flag_ac) && (digitalRead(9) & (flag_ac >> 1)) && (digitalRead(6) & (flag_ac >> 2)) && (digitalRead(5) & (flag_ac >> 3))) //etat init
       continue;
-    else if ((flag_ac ^= numberofgame) && (analogRead(A5)/1000 & flag_ac) && (digitalRead(9) & (flag_ac >> 1)) && (digitalRead(6) & (flag_ac >> 2)) && (digitalRead(5) & (flag_ac >> 3))) //cést bon
-      {
-       break; //quit to next game
-      }
+    else if ((flag_ac ^= numberofgame) && (analogRead(A5) / 1000 & flag_ac) && (digitalRead(9) & (flag_ac >> 1)) && (digitalRead(6) & (flag_ac >> 2)) && (digitalRead(5) & (flag_ac >> 3))) //cést bon
+    {
+      break; //quit to next game
+    }
     else //erreur
     {
       flag_ac ^= numberofgame;//reset
@@ -122,7 +114,6 @@ void decroche_fil(char numberofgame)//arg1= flag
     timer();
   }
 }
-
 
 const int order_cable_1[12] = {
   0, 0, 0, 0, 87, 87, 87, 87, 127, 127, 127, 127
@@ -160,7 +151,6 @@ void  next_pin(int numberofgame)
   MFS.blinkLeds(LED_ALL, OFF);
 }
 
-
 game *select_game(char num_of_game)
 {
   switch (num_of_game)
@@ -187,22 +177,15 @@ game *select_game(char num_of_game)
 }
 
 void  loop() {
-
-  //MFS.write((((((analogRead(A5) / 100) + digitalRead(9)) * 10) + digitalRead(6)) * 10) + digitalRead(5));
-  //MFS.write(analogRead(A4));
-
   static game *game_l = NULL;
   static char win = 0;
   static char numberofgame = 0;
-  //WriteInDigit();
 
   if (!win)
   {
-
     setafftime(1);
     if (game_l)
     {
-
       MFS.beep(10,    // beep for x*10 milliseconds
                5,    // silent for x*10 milliseconds
                4,    // repeat above cycle x times
@@ -215,9 +198,6 @@ void  loop() {
       Serial.println((int)numberofgame);
 #endif
       delete game_l;
-#ifdef aff_debug
-      Serial.println("ok");
-#endif
       game_l = NULL;
       numberofgame += 1;//random(0, 8); //rand
     }
@@ -238,8 +218,4 @@ void  loop() {
   }
   win = game_l->launch();
   timer();
-
-  //  int sensorValue1 = analogRead(A5);
-  //  int sensorValue2 = digitalRead(5);
-  //  Serial.println(sensorValue2);
 }

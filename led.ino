@@ -10,7 +10,6 @@ led::led()
   tab = (typeof(tab))malloc(sizeof(tab) * 10);
 }
 
-
 void led::reset()
 {
   readtabled = -1;
@@ -37,11 +36,9 @@ int led::readsequence()
 {
   if (readtabled == -1)
   {
-    //Serial.println("reset_led");
     readtabled = 0;
     iterationled = tab[0].iteration;
   }
-
   if (timetmpled + 1000 < millis())
   {
     timetmpled += 1000;
@@ -58,7 +55,6 @@ int led::readsequence()
   all_lednum((this->tab)[readtabled].number);
   return 0;
 }
-
 
 void all_lednum(char led)
 {

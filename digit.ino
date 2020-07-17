@@ -2,8 +2,6 @@
 static char readtabdigit;
 static long unsigned int timetmpdigit;
 
-
-
 const byte SEGMENT_MAP_ALPHA[] = {0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F,
                                   0x77, 0x7C, 0x39, 0x5E, 0x79, 0x71, 0x80, 0x76, 0x0E, 0x38,
                                   0x73, 0x67, 0x3E, 0x5C, 0x63, 0x08, 0x40, 0x48, 0x53, 0x00
@@ -11,15 +9,8 @@ const byte SEGMENT_MAP_ALPHA[] = {0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07
 
 const byte SEGMENT_MAP_DIGIT[] = {0xC0, 0xF9, 0xA4, 0xB0, 0x99, 0x92, 0x82, 0xF8, 0X80, 0X90};
 
-//   20
-// 10   1
-//   40
-// 8   2
-//   4  8
-
 digit::digit()
 {
-
 #ifdef aff_debug
   Serial.println("init digit");
 #endif
@@ -50,11 +41,8 @@ void digit::set_tab(void *tab)
 
 int digit::readsequence()
 {
-  //Serial.println(timetmpdigit);
-
   if (timetmpdigit + 1000 < millis())
   {
-
 #ifdef aff_debug
     Serial.println(timetmpdigit);
 #endif
@@ -68,7 +56,6 @@ int digit::readsequence()
     }
   }
   MFS.setdisplay(SEGMENT_MAP_DIGIT[tab[readtabdigit]], 3);
-  //  MFS.write(tab[readtabdigit]);
   if (timetmpdigit + 900 < millis())
   {
     MFS.setdisplay(~0, 3);
@@ -90,8 +77,6 @@ void nextgit(int select)
     tmp |= 0x23;
   }
   dig[select] = tmp;
-  //  if (!dig[select])
-  //    dig[select] = 0x22;
 }
 
 void digittmp_init(struct buton *but)
@@ -130,8 +115,6 @@ void digittmp(char flag, int readtab, struct buton *but)
       dig_buf[but[i].number - 1] = but[i].iteration;
     } while (!but[i].flag);
   }
-
-
   MFS.setdisplay(~dig[0], 1);
   MFS.setdisplay(~dig[1], 2);
   MFS.setdisplay(~dig[2], 3);

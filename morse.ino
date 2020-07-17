@@ -1,6 +1,3 @@
-
-
-
 const char *game5_reponse[] = {
   NULL,
   "read", //195
@@ -27,7 +24,7 @@ void game5::reset()
 {
   game::reset();
   setafftime(1);
-  while (!game5_reponse[reponse = random(0, 8)]);
+  while (!game5_reponse[reponse = random(0, sizeof(game5_reponse))]);
   //reponse = 1;
 #ifdef aff_debug
   Serial.print("reponse game5 : ");
@@ -35,19 +32,10 @@ void game5::reset()
 #endif
 }
 
-void game5::next()
-{
-  ;
-}
-
 typedef struct morseleter
 {
-  //  union  morsel {
   uint8_t l1: 2, l2: 2, l3: 2, l4: 2;
-  //    uint8_t leter;
-  //  }l;
 } ML;
-
 
 typedef union  morsel {
   uint8_t l1: 2, l2: 2, l3: 2, l4: 2;
@@ -83,7 +71,6 @@ const ML Malpha[26] = {
   {3, 3, 1, 1} //Z
 };
 
-
 const int timemorse = 30;
 
 int game5::launch()
@@ -102,12 +89,6 @@ int game5::launch()
     MFS.write("down");
   else
     MFS.write(sensorValue / 5.123, 3);
-  //  if (MFS.getButton())
-  //  {
-  //    Serial.println(sensorValue);
-  //    Serial.println(analogRead(A0));
-  //  }
-  //win = butt->readsequence();
   if (MFS.getButton() == 3)
   {
     if (sensorValue == reponse)

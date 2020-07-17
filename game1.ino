@@ -160,17 +160,10 @@ void game1::reset()
   void *tab;
   switch (random(0, 6))
   {
-    //    case 7:
-    //      seqled0(tal);
-    //      seqpot0(pot);
-    //      tab = pot;
-    //      func = poten;
-    //      break;
     case 0:
       seqled0(tal);
       seqbut0(but);
       tab = but;
-
       func = butt;
       break;
     case 1:
@@ -211,19 +204,16 @@ void game1::reset()
   result = 1;
 }
 
-
-
 int game1::launch()
 {
   if (!result)
-  {
-    //    Serial.println("win game 1");
     return 0;
-  }
   led_->readsequence();
-  result = func->readsequence();//(*func)();
-  //  Serial.print("result : ");
-  //  Serial.println(result);
+  result = func->readsequence();
+#ifdef aff_debug
+  Serial.print("result : ");
+  Serial.println(result);
+#endif
   if (result > 1)
     mauvais();
   return (result);

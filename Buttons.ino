@@ -2,7 +2,6 @@
 
 button::button()
 {
-
 #ifdef aff_debug
   Serial.println("init button");
 #endif
@@ -27,8 +26,6 @@ void button::set_tab(void *tab)
   }
   *(this->tab + i) = *(tableau + i);
 }
-
-
 
 void button::reset()
 {

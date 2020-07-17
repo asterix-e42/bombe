@@ -1,6 +1,3 @@
-
-
-
 game6::game6()
 {
 #ifdef aff_debug
@@ -17,20 +14,11 @@ void game6::reset()
   led_on = 0;
   flag = 0;
 
-  //  Serial.println((int)reponse);
-  //  Serial.println((int)sbox[reponse]);
   byte tmp = ~search_sbox(reponse);
   MFS.setdisplay(~0x30, 1);
-  //MFS.setdisplay(tmp, 1);
   MFS.setdisplay(tmp, 2);
   MFS.setdisplay(~6, 3);
   MFS.setdisplay(~0, 0);
-
-}
-
-void game6::next()
-{
-  ;
 }
 
 #define ROTL8(x,shift) ((uint8_t) ((x) << (shift)) | ((x) >> (8 - (shift))))
@@ -53,7 +41,6 @@ byte search_sbox(byte search) {
 
 int game6::launch()
 {
-
   byte btn = MFS.getButton();
   if (btn == 1 && led_on)
     --led_on;

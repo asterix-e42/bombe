@@ -1,6 +1,4 @@
 
-
-
 game7::game7()
 {
 #ifdef aff_debug
@@ -113,8 +111,6 @@ void game7::set_but(int mem)
   butt->reset();
   butt->set_tab(but);
 }
-
-
 
 int game7::launch()
 {

@@ -1,6 +1,3 @@
-
-
-
 game4::game4()
 {
 #ifdef aff_debug
@@ -26,6 +23,7 @@ void game4::seqbutfromdigit(struct buton *but, byte mem, byte number)
     but[number] = {mem, 1, 2};
   }
 }
+
 void game4::reset()
 {
   game::reset();
@@ -58,7 +56,6 @@ int game4::launch()
   win = butt->readsequence();
   if (!win)
   {
-
 #ifdef aff_debug
     Serial.println("next game4");
 #endif

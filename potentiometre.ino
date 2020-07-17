@@ -10,7 +10,6 @@ potentiometre::potentiometre()
   tab = (typeof(tab))malloc(sizeof(tab) * 10);
 }
 
-
 potentiometre::~potentiometre()
 {
   free(tab);
@@ -53,10 +52,12 @@ int potentiometre::readsequence()
     return (0);
   if (tab[flagpot] < 0)
   {
-    //       Serial.print("potentionmetre");
-    //       Serial.print(get_pot() + tab[flagpot]);
-    //        Serial.print(" _ ");
-    //        Serial.println(get_pot_pin());
+#ifdef aff_debug
+    Serial.print("potentionmetre");
+    Serial.print(get_pot() + tab[flagpot]);
+    Serial.print(" _ ");
+    Serial.println(get_pot_pin());
+#endif
     if (get_pot() + tab[flagpot] > get_pot_pin())
     {
       ++flagpot;

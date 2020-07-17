@@ -3,7 +3,6 @@
 #include <Wire.h>
 #include <MultiFuncShield.h>
 
-
 game2::~game2(void)
 {
   delete butt;
@@ -46,12 +45,14 @@ void game2::seqbutfromdigit(struct buton *but, byte *mem, char modif)
   while (mem[i])
   {
     but[i] = {((mem[i] - 9 + ((modif * modif == 4) ? (modif / 2) * i : modif)) % 3) + 3, 1, 2};
-    //    Serial.println("begin");
-    //    Serial.println(mem[i]);
-    //    Serial.println((int)modif);
-    //    Serial.println((modif * modif == 4)? (modif / 2) * i : modif);
-    //    Serial.println( but[i].number);
-    //    Serial.println("end");
+#ifdef aff_debug
+    Serial.println("begin");
+    Serial.println(mem[i]);
+    Serial.println((int)modif);
+    Serial.println((modif * modif == 4) ? (modif / 2) * i : modif);
+    Serial.println( but[i].number);
+    Serial.println("end");
+#endif
     ++i;
   }
 
@@ -68,7 +69,6 @@ void game2::reset()
   struct buton but[10];
 
   seqdigitr(tal, 5);
-
   MFS.write("");
   MFS.setdisplay(SEGMENT_MAP_DIGIT[modif + 3], 1);
   seqbutfromdigit(but, tal, modif);

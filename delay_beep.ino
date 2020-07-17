@@ -1,9 +1,6 @@
 
-
-
 game3::game3()
 {
-
 #ifdef aff_debug
   Serial.println("game3");
 #endif
@@ -13,10 +10,8 @@ game3::game3()
 void game3::reset()
 {
   game::reset();
-
   timetmp = millis();
   timetmp2 = millis();
-
   game3_hz = random(500, 900);
   while (game3_hz - 80 <  poten->get_pot_pin() && game3_hz + 80 >  poten->get_pot_pin())
     game3_hz = random(500, 900);
@@ -49,7 +44,6 @@ int game3::launch()
     all_lednum(1);
     timetmp += 1000;
   }
-
 #ifdef aff_debug
   Serial.println(poten->get_pot());
   Serial.println(poten->get_pot_pin());
