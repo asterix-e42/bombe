@@ -128,7 +128,7 @@ const char order_cable_led_2[5] = {
   0x66, 0x57, 0x4d, 0x2f, 0
 };
 
-void  next_pin(int numberofgame)
+void  next_pin()
 {
   static char choose_cable = 0;
   static char choose_fils = 0;
@@ -201,18 +201,18 @@ void  loop() {
       game_l = NULL;
       numberofgame += 1;//random(0, 8); //rand
     }
-    next_pin(numberofgame);
     MFS.beep(10,    // beep for x*10 milliseconds
              5,    // silent for x*10 milliseconds
              4,    // repeat above cycle x times
              2,    // loop x times
              50    // wait x*10 milliseconds between loop
             );
+    next_pin();
     //numberofgame = 1;
     Serial.print("new game : game");
     Serial.println((int)numberofgame);
     Serial.println("");
-    game_l = select_game(5);//numberofgame);
+    game_l = select_game(numberofgame);
 
     //init();
   }
