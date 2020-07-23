@@ -32,7 +32,7 @@ void setafftime(bool t) {
   writetime = t;
 }
 
-void timer() {
+int timer() {
   static long unsigned int timetmp = millis();
 
   if (timetmp + countDownTime < millis())
@@ -53,5 +53,7 @@ void timer() {
     }
     if (writetime)
       MFS.write(minutes * 100 + seconds);
+      return 1;
   }
+  return 0;
 }

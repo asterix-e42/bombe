@@ -14,7 +14,7 @@ struct s_led {
 };
 void initbuton(void);
 void affichetime(void);
-void timer();
+int timer();
 void initled(void);
 int readpotseq(int *);
 void pot_init();

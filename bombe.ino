@@ -55,38 +55,38 @@ void game_over()
   exit(0);
 }
 
+
 void change_a4(int numberofgame)
 {
-  int count_time = 20;
-  char inv = 0;
-  char before = 100;
-
-  while (count_time != 3)
-  {
-    timer();
-    if ((numberofgame) == (analogRead(A4) >> 3) || before < 50)
-    {
-#ifdef aff_debug
-      Serial.print(numberofgame);
-      Serial.print(" : ");
-      Serial.print(analogRead(A4) >> 3);
-      Serial.print(" : ");
-      Serial.println(before);
-      delay(100);
+  char flag = 0;
+#define affdeb
+#ifdef affdeb
+  Serial.println(numberofgame);
 #endif
-      before = (analogRead(A4) >> 3);
-      analogWrite(A4, inv ? 500 : 0);
-      before -= (analogRead(A4) >> 3);
-      if (before < 0)
-        before = -before;
-      inv = !inv;
-      if (count_time < 40)
-        ++count_time;
-      continue ;
+  while (1)
+  {
+    Serial.println((int)flag);
+    if (timer())
+      MFS.beep(2);
+    switch (numberofgame)
+    {
+
+#define f(x) if(x)      \
+  {                     \
+    flag = 1;           \
+    break ;             \
+  }                     \
+  if (flag)             \
+    return ;
+
+      case 0:
+        f(analogRead(A4) >> 3 != 0)
+      case 87:
+        f(80 > (analogRead(A4) >> 3) || (analogRead(A4) >> 3) > 94)
+      case 127:
+        analogWrite(A4, 0);
+        f(analogRead(A4) >> 3 < 120)
     }
-    before = 100;
-    count_time = 0;
-    analogWrite(A4, 0);
   }
 }
 
