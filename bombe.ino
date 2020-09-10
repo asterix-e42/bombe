@@ -12,14 +12,17 @@ led *led_ = NULL;
 digit *digt;
 
 #define aff_debug 0
-int countDownTime = 1000;
+
+#define speedd 200
+#define SPEEDSEC 1000
+int countDownTime = SPEEDSEC;
 
 uint8_t cables = 0;
 void setup() {
   Timer1.initialize();
   MFS.initialize(&Timer1);    // initialize multi-function shield library
   Serial.begin(9600);
-  randomSeed(analogRead(5));
+  randomSeed(analogRead(0));
 
   MFS.beep(10,    // beep for x*10 milliseconds
            5,    // silent for x*10 milliseconds
@@ -30,7 +33,7 @@ void setup() {
   MFS.blinkLeds(LED_ALL, ON); //flag clignote
   MFS.writeLeds(LED_ALL, ON); // on/off
 
-  delay(15000);
+  delay(1500);
   MFS.blinkLeds(LED_ALL, OFF);
   MFS.writeLeds(LED_ALL, OFF);
 
@@ -59,33 +62,42 @@ void game_over()
 void change_a4(int numberofgame)
 {
   char flag = 0;
-#define affdeb
-#ifdef affdeb
+#define aff_debug
+#ifdef aff_debug
+  Serial.print("numberofgame : ");
   Serial.println(numberofgame);
 #endif
   while (1)
   {
-    Serial.println((int)flag);
     if (timer())
       MFS.beep(2);
     switch (numberofgame)
     {
 
-#define f(x) if(x)      \
-  {                     \
-    flag = 1;           \
-    break ;             \
-  }                     \
-  if (flag)             \
-    return ;
+#define f(x, y)               \
+  analogWrite(A4, 700);       \
+  if(y && y && y)             \
+  {                           \
+    analogWrite(A4, 0);       \
+    if (x && x && x)          \
+    {                         \
+      if (flag)               \
+        return;               \
+      else                    \
+        break;                \
+    }                         \
+  }                           \
+  delay(1000);                \
+  flag = 1;                   \
+  break;
+
 
       case 0:
-        f(analogRead(A4) >> 3 != 0)
+        f(analogRead(A4) < 5, analogRead(A4) < 15)
       case 87:
-        f(80 > (analogRead(A4) >> 3) || (analogRead(A4) >> 3) > 94)
+        f(500 < analogRead(A4) && analogRead(A4) < 980, analogRead(A4) > 1000)
       case 127:
-        analogWrite(A4, 0);
-        f(analogRead(A4) >> 3 < 120)
+        f(analogRead(A4) > 1000, analogRead(A4) > 1000)
     }
   }
 }
@@ -93,26 +105,34 @@ void change_a4(int numberofgame)
 void decroche_fil(char numberofgame)//arg1= flag
 {
   static uint8_t flag_ac = 0;
-#define speedd 200
+
+
+#ifdef aff_debug
+  Serial.print("numberofgame : ");
+  Serial.println((int)numberofgame);
+#endif
 
   if (!numberofgame)
     exit(1);//erreur
   while (1)
   {
-    if ((analogRead(A5) / 1000 & flag_ac) && (digitalRead(9) & (flag_ac >> 1)) && (digitalRead(6) & (flag_ac >> 2)) && (digitalRead(5) & (flag_ac >> 3))) //etat init
+    timer();
+
+    if ((analogRead(A5) / 1000 ^ (flag_ac & 1)) && (digitalRead(9) ^ ((flag_ac >> 1) & 1)) && (digitalRead(6) ^ ((flag_ac >> 2) & 1)) && (digitalRead(5) ^ ((flag_ac >> 3) & 1))) //etat init
       continue;
-    else if ((flag_ac ^= numberofgame) && (analogRead(A5) / 1000 & flag_ac) && (digitalRead(9) & (flag_ac >> 1)) && (digitalRead(6) & (flag_ac >> 2)) && (digitalRead(5) & (flag_ac >> 3))) //cést bon
+    else if ((flag_ac ^= numberofgame) && (analogRead(A5) / 1000 ^ (flag_ac & 1)) && (digitalRead(9) ^ ((flag_ac >> 1) & 1)) && (digitalRead(6) ^ ((flag_ac >> 2) & 1)) && (digitalRead(5) ^ ((flag_ac >> 3) & 1))) //cést bon
     {
       break; //quit to next game
     }
     else //erreur
     {
+      Serial.println("erreur");
       flag_ac ^= numberofgame;//reset
       countDownTime = speedd;//speed timer
       MFS.beep(1);
     }
-    timer();
   }
+  countDownTime = SPEEDSEC;
 }
 
 const int order_cable_1[12] = {
@@ -131,23 +151,44 @@ const char order_cable_led_2[5] = {
 void  next_pin()
 {
   static char choose_cable = 0;
-  static char choose_fils = 0;
+  static char choose_rand = ~0;
 
+#ifdef aff_debug
+  Serial.print("next_pin : ");
+  Serial.println((int)choose_cable);
+  //delay(5);
+#endif
   if (choose_cable == 8 || cables >> choose_cable & 1)
   {
-    MFS.blinkLeds(order_cable_led_2[choose_fils] >> 4 & 15, ON);
-    all_lednum(order_cable_led_2[choose_fils] & 15);
-    decroche_fil(order_cable_2[choose_fils]);
-    ++choose_fils;
+    int order;
+#ifdef aff_debug
+    Serial.println("decroche");
+#endif
+    while (1)
+    {
+      order = random(0, 4);
+      if ((choose_rand >> order) & 1)
+      {
+        choose_rand ^= 1 << order;
+        break;
+      }
+    }
+    MFS.blinkLeds(order_cable_led_2[order] >> 4 & 15, ON);
+    all_lednum(order_cable_led_2[order] & 15);
+    decroche_fil(order_cable_2[order]);
   }
   else
   {
-    int rng = random(0, 13);
+    int rng = random(0, 12);
+#ifdef aff_debug
+    Serial.print("rgn :");
     Serial.println(rng);
+#endif
     MFS.blinkLeds(order_cable_led[rng] >> 4 & 15, ON);
     all_lednum(order_cable_led[rng] & 15);
     change_a4(order_cable_1[rng]);
   }
+  ++choose_cable;
   MFS.blinkLeds(LED_ALL, OFF);
 }
 
@@ -156,7 +197,7 @@ game *select_game(char num_of_game)
   switch (num_of_game)
   {
     case 0:
-      return (new game0());
+      return (new game1());
     case 1:
       return (new game1());
     case 2:
@@ -170,19 +211,27 @@ game *select_game(char num_of_game)
     case 6:
       return (new game6());
     case 7:
-      return (new game7());
-    default:
-      return (NULL);
+      return (new game0());
+    default:  //si on est la c'est win
+      Serial.println("win!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+      delay(10000);
+      exit(0);
   }
 }
 
 void  loop() {
+
   static game *game_l = NULL;
   static char win = 0;
   static char numberofgame = 0;
 
   if (!win)
   {
+
+#ifdef aff_debug
+    Serial.print("game num= ");
+    Serial.println((int)numberofgame);
+#endif
     setafftime(1);
     if (game_l)
     {
@@ -201,13 +250,14 @@ void  loop() {
       game_l = NULL;
       numberofgame += 1;//random(0, 8); //rand
     }
+    //next_pin();
     MFS.beep(10,    // beep for x*10 milliseconds
              5,    // silent for x*10 milliseconds
              4,    // repeat above cycle x times
              2,    // loop x times
              50    // wait x*10 milliseconds between loop
             );
-    next_pin();
+    delay(300);
     //numberofgame = 1;
     Serial.print("new game : game");
     Serial.println((int)numberofgame);

@@ -27,7 +27,7 @@ void game2::seqdigitr(byte *tal, int number)
   while (number)
   {
     --number;
-    tal[number] = random(1, 4);
+    tal[number] = random(1, 4);//rand simon
   }
 }
 
@@ -62,7 +62,7 @@ void game2::seqbutfromdigit(struct buton *but, byte *mem, char modif)
 
 void game2::reset()
 {
-  char modif = random(-1, 2);
+  char modif = 0;//random(-1, 2);
   game::reset();
   setafftime(0);
   byte tal[10];
@@ -70,7 +70,7 @@ void game2::reset()
 
   seqdigitr(tal, 5);
   MFS.write("");
-  MFS.setdisplay(SEGMENT_MAP_DIGIT[modif + 3], 1);
+  //MFS.setdisplay(SEGMENT_MAP_DIGIT[modif + 3], 1);
   seqbutfromdigit(but, tal, modif);
   butt->set_tab(but);
   digt->set_tab(tal);

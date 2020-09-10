@@ -41,7 +41,7 @@ int game3::launch()
   }
   if (timetmp + 1000 < millis())
   {
-    all_lednum(1);
+    //all_lednum(1);
     timetmp += 1000;
   }
 #ifdef aff_debug
