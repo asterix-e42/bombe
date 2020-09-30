@@ -139,6 +139,8 @@ game1::game1(void)
   poten = new potentiometre();
   butt = new button();
   reset();
+  state = 3;
+  sendmess = SOYER_ATT;
 #ifdef aff_debug
   Serial.println("init game1");
 #endif
@@ -158,7 +160,7 @@ void game1::reset()
 {
   game::reset();
   void *tab;
-  switch (5)//random(0, 6))
+  switch (random(0, 6))
   {
     case 0:
       seqled0(tal);

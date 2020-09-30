@@ -21,8 +21,6 @@ enum CountDownModeValues
 
 byte countDownMode = COUNTING_STOPPED;
 
-char seconds = 5;
-char minutes = 20;
 
 void affichetime() {
   writetime = !writetime;
@@ -52,8 +50,16 @@ int timer() {
       game_over();
     }
     if (writetime)
+    {
       MFS.write(minutes * 100 + seconds);
-      return 1;
+
+    }
+//    Wire.beginTransmission(I2C_SLAVE1_MALLETTE);
+//
+//    Wire.write(minutes);
+//    Wire.write(seconds);
+//    Wire.endTransmission();
+    return 1;
   }
   return 0;
 }

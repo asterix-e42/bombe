@@ -23,6 +23,9 @@ int (*fun)(void *, void(*err)(void));
 void readsequenceled(struct s_led *tab);
 void all_lednum(char led);
 
+void  next_pin();
+
+void sendtxt(char *txt);
 class seq
 {
   public :

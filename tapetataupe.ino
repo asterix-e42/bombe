@@ -3,6 +3,9 @@ game4::game4()
 #ifdef aff_debug
   Serial.println("game4");
 #endif
+
+  state = 2;
+  sendmess = TAPETATAUPE;
   butt = new button();
   reset();
 }
@@ -47,7 +50,7 @@ void game4::next()
   butt->set_tab(but);
   MFS.write("");
   MFS.wait(50);
-  MFS.setdisplay(SEGMENT_MAP_DIGIT[number_tap], number_but);
+  MFS.setdisplay(SEGMENT_MAP_DIGIT[number_tap], number_but - 1);
 }
 
 int game4::launch()

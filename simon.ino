@@ -16,6 +16,8 @@ game2::game2()
 #ifdef aff_debug
   Serial.println("game2");
 #endif
+  state = 2;
+  sendmess = SIMON;
   butt = new button();
   digt = new digit();
   reset();
@@ -95,7 +97,7 @@ int game2::launch()
     MFS.getButton();
   }
   else
-    result = butt->readsequence();//(*fun)(data, mauvais2);
+    result = butt->readsequence();
   if (result > 1)
   {
     mauvais();

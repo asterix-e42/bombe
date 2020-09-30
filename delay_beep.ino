@@ -4,6 +4,9 @@ game3::game3()
 #ifdef aff_debug
   Serial.println("game3");
 #endif
+
+  state = 2;
+  sendmess = DELAY_BEEP;
   reset();
 }
 

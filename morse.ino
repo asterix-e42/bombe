@@ -1,5 +1,6 @@
 const char *game5_reponse[] = {
   NULL,
+#ifdef easy_mode
   "f", //195
   "x", //390
   "l",//586
@@ -10,23 +11,27 @@ const char *game5_reponse[] = {
   "j",//1.562
   "z",//1.757
   "p",//1.952
-
-//  "read", //195
-//  "brain", //390
-//  "mind",//586
-//  "break",//781
-//  "boat",//976
-//  "rain",//1171
-//  "mean",//1366
-//  "make",//1.562
-//  "right",//1.757
-//  "bath",//1.952
+#else
+  "read", //195
+  "brain", //390
+  "mind",//586
+  "break",//781
+  "boat",//976
+  "rain",//1171
+  "mean",//1366
+  "make",//1.562
+  "right",//1.757
+  "bath",//1.952
+#endif
 };
 game5::game5()
 {
 #ifdef aff_debug
   Serial.println("game5");
 #endif
+
+  state = 2;
+  sendmess = MORSE;
   reset();
 }
 
@@ -34,7 +39,7 @@ void game5::reset()
 {
   game::reset();
   setafftime(1);
-  while (!game5_reponse[reponse = random(0, sizeof(game5_reponse))]);
+  while (!game5_reponse[reponse = random(0, sizeof(game5_reponse)) >> 1]);
   //reponse = 1;
 #ifdef aff_debug
   Serial.print("reponse game5 : ");

@@ -4,6 +4,9 @@ game7::game7()
 #ifdef aff_debug
   Serial.println("game7");
 #endif
+
+  state = 2;
+  sendmess = MEMORY;
   butt = new button();
   reset();
 }
