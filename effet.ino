@@ -81,7 +81,7 @@ void effet_LED_5()
 }
 
 void effet_clear()
-{  
+{
   matrix.writeDigitRaw(0, 0);
   matrix.writeDigitRaw(1, 0);
   matrix.writeDigitRaw(3, 0);
@@ -89,7 +89,32 @@ void effet_clear()
   matrix.writeDisplay();
 }
 
-void   effet_message()
+
+void  effet_mess_stress()
+{
+  int i;
+  message("anomalie detectee", "signal compromis", "", "");
+  for (i = 0; i < 31; i++)
+  {
+    effet_LED_4();
+    delay(100);
+  }
+  message("contournement system", "envoie payload", "", "");
+  for (i = 0; i < 31; i++)
+  {
+    effet_LED_4();
+    delay(100);
+  }
+  message("backdoor utiliser", "", "resynchronisation", "");
+  for (i = 0; i < 31; i++)
+  {
+    effet_LED_4();
+    delay(100);
+  }
+  
+}
+
+void  effet_message()
 {
   int i;
   mess("bombe detecte");
@@ -133,5 +158,5 @@ void   effet_message()
     delay(100);
   }
   message("saisir code systeme", "* : reset", "# : valider", "");
-effet_clear();
+  effet_clear();
 }

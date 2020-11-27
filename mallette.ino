@@ -22,14 +22,13 @@ struct  s_mastermind master;
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
-
+//  Wire.begin();
   // Init SPI bus
   SPI.begin();
 
+  randomSeed(analogRead(A0));
   lcd.init();                      // initialize the lcd
   lcd.backlight();
-  Wire.begin();
-
   CapaTouch.begin();
   matrix.begin(0x70);
   
@@ -56,7 +55,7 @@ void setup() {
 
 void win(int8_t minu, int8_t sec)
 {
-  message("la bombe a ete", "désamorcer", "temps restant :", "    min  sec");
+  message("la bombe a ete", "désamorcee", "temps restant :", "    min  sec");
 
   lcd.setCursor(2, 3);
   lcd.print(minu);

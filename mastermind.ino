@@ -86,7 +86,7 @@ void mastermind_bad_code(struct  s_mastermind *master)
 
   masterm(master, &cbp, &cmp);
 
-  message("     est non corect:", "valeur mal placer ", "valeur bien placer ", "");
+  message("     est non corect:", "valeur mal placee ", "valeur bien placee ", "");
   lcd.setCursor(0, 0);
   lcd.print(master->code);
   master->code = "";

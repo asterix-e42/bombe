@@ -27,19 +27,31 @@ void identification()
 
 }
 
+
+#define CARTE1 0xC6, 0x19, 0x1C, 0x1B 
+#define CARTE2 0x8F, 0x85, 0xBE, 0x29
+#define CARTE3 0xC6, 0xD0, 0x24, 0x1B
+
+#define CARTE CARTE3
 boolean rfid_ident(byte *nuidPICC)
 {
-  byte nuidrem[4] = {0xC6, 0x19, 0x1C, 0x1B };//HARDCODED maybe doesn't need to change
   if (!rfid.PICC_IsNewCardPresent())
     return 0;
 
   if ( !rfid.PICC_ReadCardSerial())
     return 0;
 
+  byte nuidrem[4] = {CARTE2};
 #define rap(i) nuidrem[i] == rfid.uid.uidByte[i]
   if ((rap(0) && rap(1) && rap(2) && rap(3)))
-#undef rap
     return 1;
+#undef rap
+  byte nuidrem2[4] = {CARTE3};
+#define rap(i) nuidrem2[i] == rfid.uid.uidByte[i]
+  if ((rap(0) && rap(1) && rap(2) && rap(3)))
+    return 1;
+#undef rap
+
   mess("user unknown");
   return 0;
 }

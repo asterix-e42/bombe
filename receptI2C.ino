@@ -23,6 +23,8 @@ void recept()
       {
         win(minu, sec);
       } break;
+    case 4 :
+      effet_mess_stress();
     default :
       {
         Serial.println("sec");
