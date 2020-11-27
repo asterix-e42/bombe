@@ -3,16 +3,15 @@
 #include <MultiFuncShield.h>
 #include "bombe.h"
 
-#define easy_mode
-
-#define DELAY_BEEP  "recalibrage page8   "
+#define DELAY_BEEP  "recalibrage page 7  "
 #define MEMORY      "order page ??"
-#define MORSE       "morse page10 "
-#define SIMON       "memory page7"
-#define SOYER_ATT   "soyez attentif p6   "
-#define SYMBOLE     "ou est charlie p11  "
-#define TAPETATAUPE "tape ta taupe page9 "
-#define TETRIS      "tetris page5        "
+#define MORSE       "morse page 9        "
+#define SIMON       "memory page 6       "
+#define SOYER_ATT   "soyez attentif p 5  "
+#define SYMBOLE     "ou est charlie p 10 "
+#define TAPETATAUPE "tape ta taupe page8 "
+#define TETRIS      "tetris page 4       "
+#define CABLE       "decablage page 11   "
 
 # define I2C_SLAVE1_BOMBE 1
 #define LATCH_DIO 4
@@ -35,7 +34,7 @@ String sendmess = "sendmess";
 
 
 char seconds = 5;
-char minutes = 40;
+char minutes = 45;
 
 
 uint8_t cables = 0;
@@ -43,10 +42,10 @@ void setup() {
   Timer1.initialize();
   MFS.initialize(&Timer1);    // initialize multi-function shield library
   Serial.begin(9600);
-  Wire.begin(I2C_SLAVE1_BOMBE);
-  Wire.onRequest(requestI2C);
   randomSeed(analogRead(A0));
 
+  Wire.begin(I2C_SLAVE1_BOMBE);
+  Wire.onRequest(requestI2C);
   MFS.beep(10,    // beep for x*10 milliseconds
            5,    // silent for x*10 milliseconds
            4,    // repeat above cycle x times
@@ -56,12 +55,10 @@ void setup() {
   MFS.blinkLeds(LED_ALL, ON); //flag clignote
   MFS.writeLeds(LED_ALL, ON); // on/off
 
-  delay(15000);
+    delay(15000);
   MFS.blinkLeds(LED_ALL, OFF);
   MFS.writeLeds(LED_ALL, OFF);
 
-//while(1)
-//    Serial.println(analogRead(A4));
   while (analogRead(A4) < 30) //detection presense(capteur)
 
     Serial.println(analogRead(A4));
@@ -119,8 +116,8 @@ game *select_game(char num_of_game)
   switch (num_of_game)
   {
     case 0:
-      return (new game0());
-    case 88:
+      return (new game3());
+    case 1:
       return (new game0());
     case 2:
       return (new game1());
@@ -135,19 +132,19 @@ game *select_game(char num_of_game)
     case 7:
       return (new game6());
     case 8:
+      if (minutes > 2)
+      {
+        state = 4;
+        countDownTime = SPEEDSEC / ((((minutes - 1) * 60) + seconds) / 10);
+        Serial.println((((minutes - 1) * 60) + seconds));
+        while (minutes > 1)
+        {
+          if (timer())
+            MFS.beep(2);
+        }
+        countDownTime = SPEEDSEC;
+      }
       return (new game1());
-      //    case 9:
-      return (new game6());
-    case 10:
-      return (new game5());
-    case 11:
-      return (new game2());
-    case 12:
-      return (new game3());
-    case 13:
-      return (new game4());
-    case 14:
-      return (new game0());
     default:  //si on est la c'est win
       win();
   }
@@ -155,11 +152,11 @@ game *select_game(char num_of_game)
 
 void win()
 {
-//    setafftime(1);
+  //    setafftime(1);
   MFS.beep(300);
   state = 3;
   sendmess = "win";
-  while(!timer());
+  while (!timer());
   delay(100000);
   exit(0);
 }
@@ -172,7 +169,9 @@ void  loop() {
 
   if (!win)
   {
-
+    TWCR = 0;
+    Wire.begin(I2C_SLAVE1_BOMBE);
+    Wire.onRequest(requestI2C);
 #ifdef aff_debug
     Serial.print("game num= ");
     Serial.println((int)numberofgame);
@@ -203,13 +202,11 @@ void  loop() {
              50    // wait x*10 milliseconds between loop
             );
     delay(300);
-    //numberofgame = 1;
     Serial.print("new game : game");
     Serial.println((int)numberofgame);
     Serial.println("");
     game_l = select_game(numberofgame);
 
-    //init();
   }
   win = game_l->launch();
   timer();

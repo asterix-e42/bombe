@@ -139,7 +139,7 @@ game1::game1(void)
   poten = new potentiometre();
   butt = new button();
   reset();
-  state = 3;
+  state = 2;
   sendmess = SOYER_ATT;
 #ifdef aff_debug
   Serial.println("init game1");

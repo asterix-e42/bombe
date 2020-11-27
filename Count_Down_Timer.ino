@@ -46,19 +46,12 @@ int timer() {
 
     if (minutes == 0 && seconds == 0)
     {
-      // timer has reached 0, so sound the alarm
       game_over();
     }
     if (writetime)
     {
       MFS.write(minutes * 100 + seconds);
-
     }
-//    Wire.beginTransmission(I2C_SLAVE1_MALLETTE);
-//
-//    Wire.write(minutes);
-//    Wire.write(seconds);
-//    Wire.endTransmission();
     return 1;
   }
   return 0;

@@ -41,15 +41,6 @@ void game0::seqbut0(struct buton *but) //ramdom hard
   but[i - 1].iteration = 2;
   but[i - 1].flag = 3;
   but[i] = {0, 0, 0};
-  //  for (int y = -1; y != i; y++)
-  //  {
-  //    Serial.print(but[y].number);
-  //    Serial.print(" ");
-  //    Serial.print(but[y].iteration);
-  //    Serial.print(" ");
-  //    Serial.print(but[y].flag);
-  //    Serial.println(" ");
-  //  }
 }
 #else
 void game0::seqbut0(struct buton *but)

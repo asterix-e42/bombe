@@ -1,8 +1,10 @@
 
+#define COUNTERCOUNT 200
+
 void decroche_fil(char numberofgame)//arg1= flag
 {
   static uint8_t flag_ac = 0;
-
+  int counter = 1;
 
 #ifdef aff_debug
   Serial.print("numberofgame : ");
@@ -15,17 +17,29 @@ void decroche_fil(char numberofgame)//arg1= flag
   {
     if (timer())
       MFS.beep(2);
-      
+
+Serial.println(counter);
     if ((digitalRead(9) ^ ((flag_ac >> 1) & 1)) && (digitalRead(6) ^ ((flag_ac >> 2) & 1)) && (digitalRead(5) ^ ((flag_ac >> 3) & 1))) //etat init
+    {
+      counter = 0;
       continue;
+    }
     else if ((flag_ac ^= numberofgame) && (digitalRead(9) ^ ((flag_ac >> 1) & 1)) && (digitalRead(6) ^ ((flag_ac >> 2) & 1)) && (digitalRead(5) ^ ((flag_ac >> 3) & 1))) //cést bon
     {
-      break; //quit to next game
+      counter++;
+      if (counter < COUNTERCOUNT){
+        (flag_ac ^= numberofgame);
+        continue;
+      }
+      break;
     }
     else //erreur
     {
-      Serial.println("erreur");
       flag_ac ^= numberofgame;//reset
+      counter++;
+      if (counter < COUNTERCOUNT)
+        continue;
+      Serial.println("erreur");
       countDownTime = speedd;//speed timer
       MFS.beep(1);
     }
@@ -46,7 +60,7 @@ void  next_pin()
   static char choose_rand = ~0;
 
   state = 2;
-  sendmess = "decablage page12    ";
+  sendmess = CABLE;
 #ifdef aff_debug
   Serial.print("next_pin : ");
   Serial.println((int)choose_cable);
